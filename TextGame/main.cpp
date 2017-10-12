@@ -8,62 +8,156 @@
 
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 int main()
 {
-    cout << "What is your name?";
-    string name;
-    cin >> name;
-    cout << name << ", you are in a room with three doors, one to the north, one to the west, and one to the east.";
-    
-    cout << name << ", the Great Soceror has recruited you for a special mission. You must find a magical paper clip and bring it to him./n If you are successful, he will reward you with a lifetime of riches.";
-    
+    string choice = "";
+    string name = "";
+    string window = "unlocked";
     string location = "start";
-    if (location == "start")
-    {
-     cout << "You are at the start.";
-    }
     
-    cout << "You can go through a door ('north', 'east', 'west') or 'explore' the current room.";
-    string UserInput = "Hi";
-    cin >> UserInput;
-    if (UserInput == "explore")
+    cout << "What is your name?\n>";
+    cin >> name;
+    cout << name << ", the Great Soceror has recruited you for a special mission. You must find a magical paper clip and bring it to him.\nIf you are successful, he will reward you with a lifetime of riches.\n";
+    
+    while (choice != "quit")
     {
-        cout << "There is an oven, a desk, and a table. You can explore the 'oven', 'desk', or 'table', or 'exit' exploration.";
-        cin >> UserInput;
-        if (UserInput == "exit")
+        if (location == "start")
         {
-            string location = "start";
-            cout << "You are at the start.";
+            cout << "You are at the start in a room with three doors, one to the north, one to the west, and one to the east.\n";
+            cout << "You can go through a door ('north', 'east', 'west') or 'explore' the current room.\n>";
+            cin >> choice;
+            
+            if (choice == "explore")
+            {
+                cout << "There is an oven, a desk, and a table. You can explore the 'oven', 'desk', or 'table', or go 'back'.\n>";
+                cin >> choice;
+                    if (choice == "back")
+                    {
+                        string location = "start";
+                    }
+                    else if (choice == "desk")
+                    {
+                        cout << "Looks like there are some pencils and a stack of lined paper.\n";
+                    }
+                    else if (choice == "oven")
+                    {
+                        cout << "Looking for a paper clip in an oven, " << name << "? Unfortunatly, the Soceror no longer thinks you are suitable for this mission.\nYou lose.\n";
+                        choice = "quit";
+                    }
+                    else if (choice == "table")
+                    {
+                        cout << "There is nothing on the table.\n";
+                    }
+                    else if (choice != "quit")
+                    {
+                        cout << "I do not understand.\n";
+                    }
+            }
+            else if (choice == "north")
+            {
+                location = "NorthRoom";
+            }
+            else if (choice == "west")
+            {
+                location = "WestRoom";
+            }
+            else if (choice == "east")
+            {
+                location = "EastRoom";
+            }
+            else if (choice == "south")
+            {
+                location = "SouthRoom";
+            }
+            else if (choice != "quit")
+            {
+                cout << "I do not understand.\n";
+            }
         }
-        else if (UserInput == "desk")
+        
+        else if (location == "NorthRoom")
         {
-            cout << "Looks like there are some pencils and line paper";
+            cout << "The door is locked.\n";
+            location = "start";
+        }
+        
+        else if (location == "WestRoom")
+        {
+            cout << location << ".\nYou are in a room with a window. A box is sitting on the floor. You can open the 'box', go to the 'window', or 'exit' WestRoom.\n>";
+            cin >> choice;
+            if (choice == "box")
+            {
+                cout << "You have found the paper clip!\n";
+                if (window == "locked")
+                {
+                    cout << "You win! You have been gifted infinite riches by the Great Soceror. He can now keep the rough draft of his novel together.\n";
+                    choice = "quit";
+                }
+                else
+                {
+                    cout << "Oh no! A gremlin got in through the window and took the paper clip before you could grab it!\nYou lose.\n";
+                    choice = "quit";
+                }
+            }
+            else if (choice == "window")
+            {
+                cout << "The window is " << window <<". You can 'open' it, 'lock' it, or go 'back'.\n>";
+                cin >> choice;
+                if (choice == "lock")
+                {
+                    window = "locked";
+                    cout << "You locked the window.\n";
+                }
+                else if (choice == "open")
+                {
+                    window = "open";
+                    cout << "There is a nice breeze.\n";
+                }
+                else if (choice == "back")
+                {
+                    location = "WestRoom";
+                }
+                else if (choice != "quit")
+                {
+                    cout << "I do not understand.\n";
+                }
+            }
+            else if (choice == "exit")
+            {
+                location = "start";
+            }
+            else if (choice != "quit")
+            {
+                cout << "I do not understand.\n";
+            }
             
         }
+        
+        if (location == "EastRoom")
+        {
+            cout << location << ". \nThere are no windows in this room, but there is a desk by the far wall. You can look in the 'desk' or 'exit' the room.\n>";
+            cin >> choice;
+            if (choice == "desk")
+            {
+                cout << "The desk is empty.\n";
+            }
+            else if (choice == "exit")
+            {
+                location = "start";
+            }
+            else if (choice != "quit")
+            {
+                cout << "I do not understand.";
+            }
+        }
+        else if (location == "SouthRoom")
+        {
+            cout << name << ", you ran into a wall. Unfortunatly, the socerer no longer thinks you are suitable for this mission.\nYou lose.\n";
+            choice = "quit";
+        }
     }
-    else if (UserInput == "north")
-    {
-        cout << "_";
-    }
-    else if (UserInput == "west")
-    {
-        cout << "_";
-    }
-    else if (UserInput == "east")
-    {
-        cout << "_";
-    }
-    else if (UserInput == "south")
-    {
-        cout << "You ran into a wall. Unfortunatly, the socerer no longer thinks you are suitable for this mission.";
-        //quit
-    }
-    else
-    {
-        cout << "I do not understand.";
-    }
-    
-    
+    return 0;
 }
