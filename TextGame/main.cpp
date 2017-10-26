@@ -15,12 +15,16 @@ int main()
 {
     string choice = "";
     string name = "";
+    string riddle = "";
     string window = "unlocked";
+    string key = "no";
     string location = "start";
+    
     
     cout << "What is your name?\n>";
     cin >> name;
     cout << name << ", the Great Soceror has recruited you for a special mission. You must find a magical paper clip and bring it to him.\nIf you are successful, he will reward you with a lifetime of riches.\n";
+
     
     while (choice != "quit")
     {
@@ -58,7 +62,7 @@ int main()
             }
             else if (choice == "north")
             {
-                location = "NorthRoom";
+                location = "NorthDoor";
             }
             else if (choice == "west")
             {
@@ -78,10 +82,52 @@ int main()
             }
         }
         
-        else if (location == "NorthRoom")
+        else if (location == "NorthDoor") //Added the NorthDoor which requires a key to unlock.
         {
-            cout << "The door is locked.\n";
-            location = "start";
+            if (key == "no")
+            {
+                cout << "The door is locked.\n";
+                location = "start";
+            }
+            else if (key == "yes")
+            {
+                cout << "You used the key to unlock the door.\n";
+                location = "NorthRoom";
+            }
+        }
+        
+        else if (location == "NorthRoom" && key == "yes") //Added the NorthRoom which is accessed by a key.
+        {
+            cout << location << ".\nYou are in a room with a cabinet and what looks like some writing on the wall. You can explore the 'cabinet', the 'writing', or 'exit' the room.\n>";
+            cin >> choice;
+            if (choice == "writing") //Added a riddle (used to open the box)
+            {
+                cout << "A message scratched into the wall reads 'When I take five and add six, I get eleven, but when I take six and add seven, I get one.'\n";
+                location = "NorthRoom";
+            }
+            else if (choice == "cabinet") //Added a monster
+            {
+                cout << "You opened the cabinet.\nOh no! A goblin jumped out and cornered you!\nYou can 'run' or 'fight'\n>";
+                cin >> choice;
+                if (choice == "run")
+                {
+                    cout << "You got away!\n";
+                    location = "start";
+                }
+                else if (choice == "fight")
+                {
+                    cout << "You were not strong enough to defeat the goblin!\n";
+                    choice = "quit";
+                }
+            }
+            else if (choice == "exit")
+            {
+                location = "start";
+            }
+            else if (choice != "quit")
+            {
+                cout << "I do not understand.\n";
+            }
         }
         
         else if (location == "WestRoom")
@@ -90,31 +136,41 @@ int main()
             cin >> choice;
             if (choice == "box")
             {
-                cout << "You have found the paper clip!\n";
-                if (window == "locked")
+                cout << "There is a keyboard on the box. Would you like to try to input a word? 'yes' or 'no'.\n>";
+                cin >> choice;
+                if (choice == "yes")
                 {
-                    cout << "You win! You have been gifted infinite riches by the Great Soceror. He can now keep the rough draft of his novel together.\n";
-                    choice = "quit";
-                }
-                else
-                {
-                    cout << "Oh no! A gremlin got in through the window and took the paper clip before you could grab it!\nYou lose.\n";
-                    choice = "quit";
+                    cout << "Type here.\n>";
+                    cin >> riddle;
+                    if (riddle == "clock")
+                    {
+                        cout << "The box opened! You have found the paper clip!\n";
+                        if (window == "locked")
+                        {
+                            cout << "You win! You have been gifted infinite riches by the Great Soceror. He can now keep the rough draft of his novel together.\n";
+                            choice = "quit";
+                        }
+                        else
+                        {
+                            cout << "Oh no! A gremlin got in through the window and took the paper clip before you could grab it!\nYou lose.\n";
+                            choice = "quit";
+                        }
+                    }
+                    else
+                    {
+                        cout << "The box didn't open.\n";
+                        location = "WestRoom";
+                    }
                 }
             }
             else if (choice == "window")
             {
-                cout << "The window is " << window <<". You can 'open' it, 'lock' it, or go 'back'.\n>";
+                cout << "The window is " << window <<". You can 'lock' it, or go 'back'.\n>";
                 cin >> choice;
                 if (choice == "lock")
                 {
                     window = "locked";
                     cout << "You locked the window.\n";
-                }
-                else if (choice == "open")
-                {
-                    window = "open";
-                    cout << "There is a nice breeze.\n";
                 }
                 else if (choice == "back")
                 {
@@ -142,7 +198,8 @@ int main()
             cin >> choice;
             if (choice == "desk")
             {
-                cout << "The desk is empty.\n";
+                cout << "There is a key in the desk. You picked it up.\n";
+                key = "yes";
             }
             else if (choice == "exit")
             {
